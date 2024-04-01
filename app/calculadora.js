@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
-import Estilos from './Estilos';
+import Estilos from '../Estilos';
 
 const Calculadora = () => {
     const [parcela1, setParcela1] = useState(0);

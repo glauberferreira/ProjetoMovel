@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import Calculadora from './Calculadora';
+import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Link } from 'expo-router';
 
 const getNomeCompleto = (nome, sobrenome) => {
   return nome + ' ' + sobrenome;
@@ -12,8 +12,6 @@ const Cat = ({nome, sobrenome, idade}) => {
 
   return <Text>Oi, eu sou {getNomeCompleto(nome, sobrenome).toUpperCase()}! E eu tenho {idade} {texto}.</Text>
 }
-
-export default Calculadora;
 
 function IFAL() {
   const [getCliques, setCliques] = useState(0);
@@ -27,6 +25,15 @@ function IFAL() {
         setCliques(getCliques + 1)
       }}/>
       <Text>Quantidade de cliques: {getCliques}</Text>
+      <Link href="/calculadora">Abrir Calculadora</Link>
+      <Link href="/calculadora" asChild>
+        <Pressable>
+          <Text>Abrir Calculadora com o Pressable</Text>
+        </Pressable>
+      </Link>
+      <Link href="/calculadora" asChild>
+        <Button title="Abrir Calculadora com Button"/>
+      </Link>
       <StatusBar style="auto" />
     </View>
   );
@@ -40,3 +47,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default IFAL;
