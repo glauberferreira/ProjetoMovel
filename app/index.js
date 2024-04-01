@@ -6,18 +6,23 @@ const getNomeCompleto = (nome, sobrenome) => {
   return nome + ' ' + sobrenome;
 }
 
-const Cat = ({nome, sobrenome, idade}) => {
+const Cat = ({id, nome, sobrenome, idade}) => {
   const texto = (idade <= 1) ? "ano" : "anos";
 
-  return <Text>Oi, eu sou {getNomeCompleto(nome, sobrenome).toUpperCase()}! E eu tenho {idade} {texto}.</Text>
+  return (
+    <Link href={{
+      pathname: "/gatos/[id]",
+      params: {id: id}
+    }}>Oi, eu sou {getNomeCompleto(nome, sobrenome).toUpperCase()}! E eu tenho {idade} {texto} e meu id é {id}.</Link>
+  );
 }
 
 function IFAL() {
   return (
     <View style={styles.container}>
-      <Cat nome="Black" sobrenome="Friday" idade={3}/>
-      <Cat nome="Garfield" sobrenome="Lasanha" idade={45}/>
-      <Cat nome="Apolo" sobrenome="11" idade={1}/>
+      <Cat id={1} nome="Black" sobrenome="Friday" idade={3}/>
+      <Cat id={2} nome="Garfield" sobrenome="Lasanha" idade={45}/>
+      <Cat id={3} nome="Apolo" sobrenome="11" idade={1}/>
       <Link href="/calculadora">Abrir Calculadora</Link>
       <Link href="/calculadora" asChild>
         <Pressable>
