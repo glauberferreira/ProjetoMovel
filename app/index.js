@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
@@ -14,17 +13,11 @@ const Cat = ({nome, sobrenome, idade}) => {
 }
 
 function IFAL() {
-  const [getCliques, setCliques] = useState(0);
-
   return (
     <View style={styles.container}>
       <Cat nome="Black" sobrenome="Friday" idade={3}/>
       <Cat nome="Garfield" sobrenome="Lasanha" idade={45}/>
       <Cat nome="Apolo" sobrenome="11" idade={1}/>
-      <Button title='OK' onPress={() => {
-        setCliques(getCliques + 1)
-      }}/>
-      <Text>Quantidade de cliques: {getCliques}</Text>
       <Link href="/calculadora">Abrir Calculadora</Link>
       <Link href="/calculadora" asChild>
         <Pressable>
@@ -33,6 +26,9 @@ function IFAL() {
       </Link>
       <Link href="/calculadora" asChild>
         <Button title="Abrir Calculadora com Button"/>
+      </Link>
+      <Link href="/cliques" asChild>
+        <Button title="Abrir Contador de Cliques"/>
       </Link>
       <StatusBar style="auto" />
     </View>
