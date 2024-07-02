@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
+import { Button } from 'react-native-paper';
 
 const getNomeCompleto = (nome, sobrenome) => {
   return nome + ' ' + sobrenome;
@@ -30,10 +31,10 @@ function IFAL() {
         </Pressable>
       </Link>
       <Link href="/calculadora" asChild>
-        <Button title="Abrir Calculadora com Button"/>
+        <Button mode='contained'>Abrir Calculadora com Button</Button>
       </Link>
       <Link href="/cliques" asChild>
-        <Button title="Abrir Contador de Cliques"/>
+        <Button mode='contained'>Abrir Contador de Cliques</Button>
       </Link>
       <StatusBar style="auto" />
     </View>
