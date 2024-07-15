@@ -36,6 +36,7 @@ function IFAL() {
       <Link href="/cliques" asChild>
         <Button mode='contained'>Abrir Contador de Cliques</Button>
       </Link>
+      <Link href="/users">Listagem de Usuários</Link>
       <StatusBar style="auto" />
     </View>
   );
