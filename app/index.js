@@ -2,6 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
 import { Button } from 'react-native-paper';
+import { app } from '../firebaseConfig'
+import { signInWithEmailAndPassword, initializeAuth, getReactNativePersistence } from "firebase/auth";
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const getNomeCompleto = (nome, sobrenome) => {
   return nome + ' ' + sobrenome;
@@ -37,9 +40,35 @@ function IFAL() {
         <Button mode='contained'>Abrir Contador de Cliques</Button>
       </Link>
       <Link href="/users">Listagem de Usuários</Link>
+      <Button onPress={() => {
+        fazerLogin();
+      }}>Fazer login via Firebase</Button>
       <StatusBar style="auto" />
     </View>
   );
+}
+
+const fazerLogin = () => {
+  // Initialize Firebase Authentication and get a reference to the service
+  const auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+  });
+
+  signInWithEmailAndPassword(auth, 'usuario@email.com', 'senha')
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      console.log('Login realizado com sucesso!');
+      console.log(user.uid);
+      console.log(user);
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode);
+      console.log(errorMessage);
+    });  
 }
 
 const styles = StyleSheet.create({
