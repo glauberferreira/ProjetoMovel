@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'expo-router';
-import { Button } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 import { app } from '../firebaseConfig'
 import { signInWithEmailAndPassword, initializeAuth, getReactNativePersistence } from "firebase/auth";
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,6 +23,9 @@ const Cat = ({id, nome, sobrenome, idade}) => {
 }
 
 function IFAL() {
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+
   return (
     <View style={styles.container}>
       <Cat id={1} nome="Black" sobrenome="Friday" idade={3}/>
@@ -40,21 +44,23 @@ function IFAL() {
         <Button mode='contained'>Abrir Contador de Cliques</Button>
       </Link>
       <Link href="/users">Listagem de Usuários</Link>
+      <TextInput label="Email" value={email} onChangeText={(texto) => setEmail(texto)}/>
+      <TextInput label="Senha" value={senha} onChangeText={(texto) => setSenha(texto)}/>
       <Button onPress={() => {
-        fazerLogin();
+        fazerLogin(email, senha);
       }}>Fazer login via Firebase</Button>
       <StatusBar style="auto" />
     </View>
   );
 }
 
-const fazerLogin = () => {
+const fazerLogin = (email, senha) => {
   // Initialize Firebase Authentication and get a reference to the service
   const auth = initializeAuth(app, {
     persistence: getReactNativePersistence(ReactNativeAsyncStorage)
   });
 
-  signInWithEmailAndPassword(auth, 'usuario@email.com', 'senha')
+  signInWithEmailAndPassword(auth, email, senha)
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
