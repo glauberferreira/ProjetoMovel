@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { Button, TextInput } from 'react-native-paper';
 import { app } from '../firebaseConfig'
 import { signInWithEmailAndPassword, initializeAuth, getReactNativePersistence } from "firebase/auth";
@@ -25,6 +25,7 @@ const Cat = ({id, nome, sobrenome, idade}) => {
 function IFAL() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const router = useRouter();
 
   return (
     <View style={styles.container}>
@@ -47,14 +48,14 @@ function IFAL() {
       <TextInput label="Email" value={email} onChangeText={(texto) => setEmail(texto)}/>
       <TextInput label="Senha" value={senha} onChangeText={(texto) => setSenha(texto)}/>
       <Button onPress={() => {
-        fazerLogin(email, senha);
+        fazerLogin(email, senha, router);
       }}>Fazer login via Firebase</Button>
       <StatusBar style="auto" />
     </View>
   );
 }
 
-const fazerLogin = (email, senha) => {
+const fazerLogin = (email, senha, router) => {
   // Initialize Firebase Authentication and get a reference to the service
   const auth = initializeAuth(app, {
     persistence: getReactNativePersistence(ReactNativeAsyncStorage)
@@ -67,6 +68,7 @@ const fazerLogin = (email, senha) => {
       console.log('Login realizado com sucesso!');
       console.log(user.uid);
       console.log(user);
+      router.replace('/cliques');
       // ...
     })
     .catch((error) => {
