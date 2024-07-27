@@ -3,9 +3,8 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Button, TextInput } from 'react-native-paper';
-import { app } from '../firebaseConfig'
-import { signInWithEmailAndPassword, initializeAuth, getReactNativePersistence } from "firebase/auth";
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { auth } from '../firebaseConfig'
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const getNomeCompleto = (nome, sobrenome) => {
   return nome + ' ' + sobrenome;
@@ -26,6 +25,25 @@ function IFAL() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const router = useRouter();
+  
+  const fazerLogin = (email, senha, router) => {
+    signInWithEmailAndPassword(auth, email, senha)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log('Login realizado com sucesso!');
+        console.log(user.uid);
+        console.log(user);
+        router.replace('/cliques');
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode);
+        console.log(errorMessage);
+      });  
+  }    
 
   return (
     <View style={styles.container}>
@@ -53,30 +71,6 @@ function IFAL() {
       <StatusBar style="auto" />
     </View>
   );
-}
-
-const fazerLogin = (email, senha, router) => {
-  // Initialize Firebase Authentication and get a reference to the service
-  const auth = initializeAuth(app, {
-    persistence: getReactNativePersistence(ReactNativeAsyncStorage)
-  });
-
-  signInWithEmailAndPassword(auth, email, senha)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      console.log('Login realizado com sucesso!');
-      console.log(user.uid);
-      console.log(user);
-      router.replace('/cliques');
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode);
-      console.log(errorMessage);
-    });  
 }
 
 const styles = StyleSheet.create({
